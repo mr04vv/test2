@@ -1,0 +1,14 @@
+name: Base CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Create annotation for build error
+        run: echo "hogehoge"
+
