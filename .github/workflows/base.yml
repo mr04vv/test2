@@ -13,7 +13,7 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.TOKEN }}
-          repository: test
+          repository: mr04vv/test
           event-type: echo_message
           client-payload: '{"message": "Hello!"}'
 
