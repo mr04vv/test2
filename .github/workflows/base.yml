@@ -1,0 +1,19 @@
+name: Base CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.TOKEN }}
+          repository: test
+          event-type: echo_message
+          client-payload: '{"message": "Hello!"}'
+
