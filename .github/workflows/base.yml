@@ -1,19 +1,17 @@
 name: Base CI
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
-  docker-build:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.TOKEN }}
-          repository: mr04vv/test
-          event-type: echo_message
-          client-payload: '{"message": "Hello!"}'
+      - name: Test
+        id: echo-text
+        run: |
+          echo "url=https://blog.mooriii.com" >> $GITHUB_OUTPUT
+          echo "url2=$($url | sed -e 's|https://||')" >> $GITHUB_OUTPUT
+      - name: Debug Output
+        run: echo "Extracted URL ${{ steps.echo-text.outputs.url }}"
 
