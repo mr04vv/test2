@@ -11,9 +11,12 @@ jobs:
         id: echo-text
         run: |
           echo "url=https://blog.mooriii.com" >> $GITHUB_OUTPUT
-          echo "url2=$(echo "https://blog.mooriii.com" | sed -e 's|https://||')" >> $GITHUB_OUTPUT
+      - name: Test
+        id: echo-text2
+        run: |
+          echo "url2=$(echo ${{ steps.echo-text.outputs.url }} | sed -e 's|https://||')" >> $GITHUB_OUTPUT
       - name: Debug Output
         run: echo "Extracted URL ${{ steps.echo-text.outputs.url }}"
       - name: Debug Output2
-        run: echo "Extracted URL ${{ steps.echo-text.outputs.url2 }}"
+        run: echo "Extracted URL ${{ steps.echo-text2.outputs.url2 }}"
 
