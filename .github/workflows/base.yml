@@ -11,7 +11,7 @@ jobs:
         id: echo-text
         run: |
           echo "url=https://blog.mooriii.com" >> $GITHUB_OUTPUT
-          echo "url2=$($url | sed -e 's|https://||')" >> $GITHUB_OUTPUT
+          echo "url2=$(echo $url | sed -e 's|https://||')" >> $GITHUB_OUTPUT
       - name: Debug Output
         run: echo "Extracted URL ${{ steps.echo-text.outputs.url }}"
       - name: Debug Output2
