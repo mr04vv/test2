@@ -36,8 +36,6 @@ jobs:
               -f body="" \
               -f labels[]="bug")
 
-            SUB_ISSUE_NUMBER=$(echo "$SUB_ISSUE_RESPONSE" | jq '.number')
-
             HOGE=$(gh api \
               --method POST \
               -H "Accept: application/vnd.github+json" \
