@@ -33,8 +33,7 @@ jobs:
               -H "Accept: application/vnd.github+json" \
               /repos/${{ github.repository }}/issues \
               -f title="$SUB_TITLE" \
-              -f body="" \
-              -f labels[]="$LABELS_JSON")
+              -f body="")
 
             SUB_ISSUE_NUMBER=$(echo "$SUB_ISSUE_RESPONSE" | jq '.number')
 
