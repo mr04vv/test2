@@ -36,13 +36,6 @@ jobs:
               -f body="" \
               -f labels[]="bug")
 
-            HOGE=$(gh api \
-              --method POST \
-              -H "Accept: application/vnd.github+json" \
-              /repos/${{ github.repository }}/issues/24/sub_issues \
-              -F "sub_issue_id=21")
-            
-            echo "hoge: $HOGE"
           done
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
