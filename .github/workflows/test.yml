@@ -33,9 +33,13 @@ jobs:
               -H "Accept: application/vnd.github+json" \
               /repos/${{ github.repository }}/issues \
               -f title="$SUB_TITLE" \
-              -f body="")
+              -f body="" \
+              -f labels[]="bug")
 
             SUB_ISSUE_NUMBER=$(echo "$SUB_ISSUE_RESPONSE" | jq '.number')
+
+            console.log("SUB_ISSUE_RESPONSE: $SUB_ISSUE_RESPONSE")
+            console.log("SUB_ISSUE_NUMBER: $SUB_ISSUE_NUMBER")
 
             gh api \
               --method POST \
