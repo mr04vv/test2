@@ -1,0 +1,49 @@
+name: Create Component Sub Issue
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  create-sub-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - name: Extract labels
+        id: extract_labels
+        run: |
+          labels_json='${{ toJson(github.event.issue.labels) }}'
+          labels=$(echo "$labels_json" | jq -r 'map(.name) | join(",")')
+          echo "labels=$labels" >> $GITHUB_ENV
+
+      - name: Create multiple sub-issues
+        run: |
+          ISSUE_NUMBER=${{ github.event.issue.number }}
+          LABELS_JSON="${{ env.labels }}"
+
+          SUB_ISSUES=("デザイン作成" "コンポーネント実装" "ドキュメント作成")
+
+          for SUB_ISSUE in "${SUB_ISSUES[@]}"; do
+            SUB_TITLE="${SUB_ISSUE}"
+
+            SUB_ISSUE_RESPONSE=$(gh api \
+              --method POST \
+              -H "Accept: application/vnd.github+json" \
+              /repos/${{ github.repository }}/issues \
+              -f title="$SUB_TITLE" \
+              -f body="" \
+              -f labels[]="$LABELS_JSON")
+
+            SUB_ISSUE_NUMBER=$(echo "$SUB_ISSUE_RESPONSE" | jq '.number')
+
+            gh api \
+              --method POST \
+              -H "Accept: application/vnd.github+json" \
+              /repos/${{ github.repository }}/issues/$ISSUE_NUMBER/sub_issues \
+              -F "sub_issue_id=$SUB_ISSUE_NUMBER"
+
+          done
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
